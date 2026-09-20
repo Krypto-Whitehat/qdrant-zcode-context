@@ -1,0 +1,22 @@
+{
+  "_comment": "ZCode: merge 'mcp' into ~/.zcode/cli/config.json. Claude Code: rename 'mcp' to 'mcpServers' in ~/.claude.json. Other MCP clients: same shape, standard stdio server.",
+  "mcp": {
+    "servers": {
+      "qdrant": {
+        "type": "stdio",
+        "command": "uvx",
+        "args": [
+          "mcp-server-qdrant"
+        ],
+        "env": {
+          "QDRANT_URL": "https://<your-cluster>.qdrant.io",
+          "QDRANT_API_KEY": "<your-api-key>",
+          "EMBEDDING_MODEL": "sentence-transformers/all-MiniLM-L6-v2",
+          "QDRANT_READ_ONLY": "true"
+        },
+        "timeout": 120000,
+        "enabled": true
+      }
+    }
+  }
+}

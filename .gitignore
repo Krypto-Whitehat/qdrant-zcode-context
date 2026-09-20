@@ -1,0 +1,7 @@
+config.json
+.venv/
+localdb/
+manifests/
+__pycache__/
+*.pyc
+*.qdb

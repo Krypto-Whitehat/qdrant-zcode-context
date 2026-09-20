@@ -1,0 +1,5 @@
+qdrant-client[fastembed]
+pypdf
+python-docx
+openpyxl
+python-pptx
