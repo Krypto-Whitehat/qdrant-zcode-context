@@ -43,23 +43,18 @@ set /p IDXP=Project path to index (empty = skip):
 if not "%IDXP%"=="" ".venv\Scripts\python.exe" indexer.py index "%IDXP%"
 
 echo.
+echo [6/6] Auto-configure ZCode (MCP server + auto-sync hook)
+echo       If ZCode is running: close it completely first, restart afterwards.
+set /p AUTOCFG=Configure ZCode now? (y/n): 
+if /i "%AUTOCFG%"=="y" ".venv\Scripts\python.exe" setup_zcode.py
+
+echo.
 echo ============================================
-echo  SETUP DONE. Last step - register in ZCode:
-echo.
-echo  (A) MCP server: Settings / MCP config - merge
-echo      mcp-config-example.json (insert your URL+key)
-echo      same shape works in Claude Code (~/.claude.json,
-echo      key "mcpServers") and Codex (~/.codex/config.toml)
-echo.
-echo  (B) Auto-sync hook: Settings - Hooks - New hook
-echo      Event:    PostToolUse
-echo      Matcher:  Write^|Edit^|MultiEdit
-echo      Runner:   Process
-echo      Command:  %CD%\.venv\Scripts\python.exe
-echo      Arg 1:    %CD%\indexer.py
-echo      Arg 2:    hook
-echo      Timeout:  60
-echo.
-echo  Then restart ZCode. Full docs: README.md
+echo  DONE. Manual fallback for ZCode:
+echo   MCP:  merge mcp-config-example.json
+echo   Hook: Event PostToolUse, Matcher Write^|Edit^|MultiEdit,
+echo         Command %CD%\.venv\Scripts\python.exe
+echo         Args: %CD%\indexer.py  +  hook   Timeout: 60
+echo  Docs: README.md
 echo ============================================
 pause

@@ -39,8 +39,10 @@ exact chunk + file:line-style location  →  no more whole-file reads
 1. Double-click **`install.bat`**
 2. Paste your Qdrant Cloud **Cluster URL** and **API key**
 3. Optionally index a project immediately
-4. Register the MCP server + hook in ZCode (exact values are printed at the end, see below)
+4. Confirm the **auto-configuration** prompt — it writes the MCP server **and** the auto-sync hook into ZCode's config (timestamped backup created, safe to re-run)
 5. Restart ZCode — done
+
+> Run the auto-configuration with ZCode closed (or restart afterwards). If the auto-merge is skipped or fails, add MCP + hook manually with the values below.
 
 ## ZCode integration
 
@@ -64,7 +66,9 @@ exact chunk + file:line-style location  →  no more whole-file reads
 
 `QDRANT_READ_ONLY=true` keeps the agent from modifying your index — only the indexer writes.
 
-### Auto-sync hook (ZCode → Settings → Hooks → New hook)
+### Auto-sync hook (registered automatically by `install.bat` step 6)
+
+The installer writes this into ZCode's `~/.zcode/cli/config.json` (`hooks.events.PostToolUse`, with a backup of the file). Manual fallback — ZCode → Settings → Hooks → New hook:
 
 | Field | Value |
 |---|---|
@@ -75,7 +79,7 @@ exact chunk + file:line-style location  →  no more whole-file reads
 | Arguments | `<repo>\indexer.py` ⏎ `hook` (one per line) |
 | Timeout | `60` |
 
-Why via the UI? ZCode persists UI hooks in its internal app store and re-writes `config.json` on restart — hooks created in the UI survive, file-only edits can be overwritten.
+Note: ZCode's hook list is stored in an internal Electron store — if you see stale entries from removed tools (old indexers, plugins), delete them in the UI; the installer-managed entries update themselves via `setup_zcode.py`.
 
 ### Claude Code / Codex
 
